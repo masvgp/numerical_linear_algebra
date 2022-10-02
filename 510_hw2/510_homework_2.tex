@@ -1,0 +1,308 @@
+\documentclass{article}
+%\usepackage{concmath}
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ : \hmwkTitle}
+%\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#2}
+\newcommand{\hmwkDueDate}{September 2, 2022}
+\newcommand{\hmwkClass}{Numerical Linear Algebra}
+\newcommand{\hmwkClassTime}{Section 1}
+\newcommand{\hmwkClassInstructor}{Instructor: Professor Blake Barker\\}
+\newcommand{\hmwkAuthorName}{\textbf{Michael Snyder}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 10:00PM}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+\section*{Problem 2.2}
+The Pythagorean Theorem asserts that for a set of $n$ orthogonal vectors $\{x_i\}$,
+\begin{equation}
+    \begin{Vmatrix}\displaystyle
+        \sum_{i=1}^n x_i
+    \end{Vmatrix}^2 = \sum_{i = 1}^n \begin{Vmatrix}
+        x_i
+    \end{Vmatrix}^2\\
+\end{equation}
+ 
+
+\textbf{(a)} Prove this in the case $n=2$ by an explicit computation of $\begin{Vmatrix}
+    x_1 + x_2
+\end{Vmatrix}^2$.
+
+\begin{proof}
+    
+We begin by noting that by orthogonality, $x_i^* x_j = 0$ for $i \neq j$. Thus,
+\begin{align*}
+    \begin{Vmatrix}\displaystyle
+        \sum_{i=1}^n x_i
+    \end{Vmatrix}^2 &=     \begin{Vmatrix}
+    x_1 + x_2
+\end{Vmatrix}^2\\
+ &= (x_1 + x_2)^*(x_1 + x_2)\\
+ &= x_1^*x_1 + x_1^*x_2 + x_2^* x_1 + x_2^*x_2\\
+ &= 1 + 0 + 0 + 1\\
+ &= 1 + 1\\
+ &= x_1^*x_1 + x_2^*x_2\\
+ &= \begin{Vmatrix}
+    x_1
+ \end{Vmatrix}^2 + \begin{Vmatrix}
+    x_2
+ \end{Vmatrix}^2\\
+ &= \sum_{i=1}^n \begin{Vmatrix}
+    x_1
+ \end{Vmatrix}^2.
+\end{align*}
+\end{proof} 
+\textbf{(b)} Show that this computation also establishes the general case, by induction.
+\begin{proof}
+    The base case for induction has been shown in Part $(a)$. Note orthogonality is used to anhilate terms $x_i^*x_j$ for $i \neq j$ in $(3)$ below. Now, suppose Equation (1) equation holds for $k > 2$. We now show, by induction, that this implies Equation (1) also holds for $k+1$:
+    \begin{align}
+        \begin{Vmatrix}
+            \sum_{i=1}^{k+1}x_1
+        \end{Vmatrix}^2 &= (x_1 + \cdots + x_k + x_{k+1})^*(x_1 + \cdots + x_k + x_{k+1})\\
+        &= \sum_{i=1}^k \begin{Vmatrix}
+            x_i
+        \end{Vmatrix}^2 + \sum_{i=1}^kx_{k+1}^*x_i + x_{k+1}^*x_{k+1}\\
+        &= \sum_{i=1}^{k+1}\begin{Vmatrix}
+            x_i
+        \end{Vmatrix}^2.
+    \end{align}
+\end{proof}
+
+\section*{Problem 2.5}
+Let $S\in \mathbb{C}^{m \times m}$ be \textit{skew-hermitian}, i.e., $S^* = -S$.\\
+
+\textbf{(a)} Show by using Exercise 2.1 that the eigenvalues of $S$ are pure imaginary.
+\begin{proof}
+    We show this directly without using Exerciese 2.1. Suppose $S\in \mathbb{C}^{m \times m}$ be \textit{skew-hermitian}. Then 
+    \begin{equation}
+        S^* = -S.    
+    \end{equation}
+    Futher, suppose that $\lambda$ is an eigenvalue of $S$ with associated eigenvector $x$. Then, using Equation (5), we have
+    \begin{align*}
+        S^* &= -S\\
+        S^*x &= -Sx\\
+        S^*x &= -\lambda x\\
+        x^*Sx &= -\overline{\lambda}x^*x\\
+        x^*\lambda x &= -\overline{\lambda}x^*x\\
+        \lambda \begin{Vmatrix}
+            x
+        \end{Vmatrix} &= -\overline{\lambda}\begin{Vmatrix}
+            x
+        \end{Vmatrix}\\
+        \begin{Vmatrix}
+            x
+        \end{Vmatrix}(\lambda + \overline{\lambda}) &= 0
+    \end{align*}
+    Since $x \neq 0$, it must be that $\lambda = -\overline{\lambda}$. If $\lambda = a + bi$, then we have
+    \begin{align*}
+        a+bi &= -(a - bi)\\
+        a + bi &= -a + bi\\
+    \end{align*}
+    But this implies $a=0$. Therefore, $\lambda$ is pure imaginary, as was to be shown.
+\end{proof}
+
+\textbf{(b)} Show that $I-S$ is non-singular.
+\begin{proof}
+    Suppose to the contrary that $I-S$ is singular. Then there exists $x \in C^m$ such that $x \neq 0$, but $(I-S)x = 0$. Using this fact, we have
+    \begin{align*}
+        (I-S)x &= 0\\
+        Ix - Sx &= 0\\
+        x &= Sx\\
+    \end{align*}
+    But this means $\lambda = 1$ is an eigenvalue of $S$. By Part (a), this is a contradiction since all eigenvalues of $S$ are pure imaginary. Therefore, $I-S$ is non-singular.
+\end{proof}
+
+\textbf{(c)} Show that the matrix $Q = (I-S)^{-1}(I+S)$, known as the \textit{Cayley transform} of $S$, is unitary. 
+\begin{proof}
+    In this proof, we use the fact from Part $(a)$ that $S^* = -S$. Note that by definition, a matrix $A$ is unitary if $A^* = A^{-1}$. Thus, if $Q$ is unitary, then $QQ^* = QQ^{-1} = I$. We prove this fact as follows.
+    \begin{align*}
+        QQ^* &= (I-S)^{-1}(I+S)[(I-S)^{-1}(I+S)]^*\\
+        &= (I-S)^{-1}(I+S)(I+S)^*(I-S)^{-*}\\
+        &= (I-S)^{-1}(I+S)(I-S)(I+S)^{-1}\\
+        &= (I-S)^{-1}(I-S + S - S^2)(I+S)^{-1}\\
+        &= (I-S)^{-1}(-S + I)(S + I)(I+S)^{-1}\\
+        &= (I-S)^{-1}(I-S)(I+S)(I+S)^{-1}\\
+        &= II\\
+        &= I.
+    \end{align*}
+\end{proof}
+
+\section*{Problem 2.7}
+A \textit{Hadamard matrix} is a matrix whose entries are all $\pm 1$ and whose transpose is equal to its inverse times a constant factor. It is know that if $A$ is a Hadamard matrix of dimension $m > 2$, then $m$ is a multiple of $4$. It is not know, however, whether there is a Hadamard matrix for every such $m$, though examples have been found for all cases $m \leq 424$.\\
+
+Show that the following recursive description provides a Hadamard matrix of each dimension $m = 2^k, k = 0, 1, 2, \dots$:
+\[ H_0 = \begin{bmatrix}
+    1
+\end{bmatrix}, ~~~ H_{k+1} = \begin{bmatrix}
+    H_k & H_k\\
+    H_k & -H_k\\
+\end{bmatrix}. \]
+
+\begin{proof}
+    We use repeatedly the property that, if $A$ is a Hadamard matrix, then $A^T = aA^{-1}$ for some constant $a$. We prove the hypothesis by induction. As a base case, consider $k=0$.
+    \[H_1 = \begin{bmatrix}
+        H_0 & H_0\\
+        H_0 & -H_0\\
+    \end{bmatrix} = \begin{bmatrix}
+        1 & 1\\
+        1 & -1\\
+    \end{bmatrix}.\]
+    Here all entries are $\pm 1$ as required. Moreover, we note that the columns of $H_1$ are linearly independent, which can be verified by taking the dot product of the columns to obtain $1 - 1 = 0$. Factoring out a constant $a = 2$ so that the columns are of unit length yields a constant times the unitary matrix $aQ = H_1$. By defnition, $Q$ unitary means $Q^* = Q^{-1}$. Since Q contains only real values, we have $Q^T = Q^{-1}$. Hence
+    \[aQ^T = H_1^T \Rightarrow aQ^{-1} = H_1^T.\] But this implies that $aQ^{-1} = aH_1^{-1}$. 
+    
+    % we compute the inverse of $H_1$ which yields
+    % \[H_1^{-1} = -\frac{1}{2H_0}\begin{bmatrix}
+    %     -H_0 & -H_0\\
+    %     -H_0 & H_0\\
+    % \end{bmatrix} \]
+    % We also note that since $H_1$ is symmetric, $H_1^T = H_1$. Thus, the computation of $H_1^{-1}$ implies that
+    % \begin{equation}
+    %     H_1^T = 2H_0H_1^{-1} = 2H_1^{-1}. 
+    % \end{equation}
+
+    % In the case that $k=1$, we have
+    % \[H_2 = \begin{bmatrix}
+    %     H_1 & H_1\\
+    %     H_1 & -H_1\\
+    % \end{bmatrix}.\]
+    % Again $H_2$ symmetric implies $H_2^T = H_2$. 
+
+    Now assume that the recurrence has been verified to produce Hadamard matrices for all $m\times m$ matrices for $m=2^{k-1}$ for $k > 1$. Then considering $k$ we have by way of the recurrence,
+    \[H_{k+1} = \begin{bmatrix}
+        H_k & H_k\\
+        H_k & -H_k\\
+    \end{bmatrix} 
+    \]
+    Since $H_{k+1}$ is composed of linearly independent submatrices which are linearly independent, the columns of $H_{k+1}$ are linearly independent.
+    Thus we can apply the same procedure to show that $H_{k+1}^T = aH_{k+1}^{-1}$. That is, we can factor out a constant to obtain a unitary matrix whose transpose is the inverse to obtain $aQ^{-1} = aH_1^{-1} = H_1^T$. This fact combined with the fact that all entries of $H_{k+1}$ are $\pm 1$, means that $H_{k+1}$ is a Hadamard matrix of size $m=2^{k+1}$. Therefore, for dimensions $m=2^k, k = 0, 1, 2, \dots$, the recurrence produces Hadamard matrix.
+
+
+\end{proof}
+\end{document}

@@ -1,0 +1,261 @@
+\documentclass{article}
+%\usepackage{concmath}
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ : \hmwkTitle}
+%\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#4}
+\newcommand{\hmwkDueDate}{September 9, 2022}
+\newcommand{\hmwkClass}{Numerical Linear Algebra}
+\newcommand{\hmwkClassTime}{Section 1}
+\newcommand{\hmwkClassInstructor}{Instructor: Professor Blake Barker\\}
+\newcommand{\hmwkAuthorName}{\textbf{Michael Snyder}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 10:00PM}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+\section*{Problem 4.4}
+Two matrices $A, B \in \mathbb{C}^{m \times m}$ are \textit{unitarily equivalent} if $A = QBQ^*$ for some unitary $Q \in \mathbb{C}^{m\times m}$. Is it true or false that $A$ and $B$ are unitarily equivalent if and only if they have the same singular values?\\
+
+\begin{proof}
+    $(\Rightarrow)$ Let $A, B \in \mathbb{C}^{m \times m}$ and suppose $A = QBQ^*$ for some unitary $Q \in \mathbb{C}^{m\times m}$, that is, $A$ and $B$ are unitarily equivalent. By Theorem 4.1, $B$ has an SVD, namely \[B = U_B \Sigma V_B^*.\] Note, by Theorem 4.1, the singular values of $B$ are uniquely determined, hence $\Sigma$ contains the only set of singular values of $B$.\\
+    
+    Set $U_A = QU_B$ and $V_A^* = V_B^*Q^*$. Since a product of unitary matrices is unitary, $U_A$ and $U_B$ are unitary. Now, using the SVD of $B$ and the fact that $A$ and $B$ are assumed unitarily equivalent, \[A = QBQ^* = QU_B \Sigma V_B^*Q^* = U_A\Sigma V_A^*.\] But this is an SVD of $A$ and as stated above, $\Sigma$ contains the uniquely determined singular values of $A$. Therefore, since the SVD of $A$ and $B$ share the same $\Sigma$, $A$ and $B$ have the same singular values.\\
+
+    $(\Leftarrow)$ Again, let $A, B \in \mathbb{C}^{m \times m}$, but assume now that the singular values of $A$ and $B$ are the same. Also, to obtain a proof by contradiction, we will assume that $A \neq B$, which is the trivial case. Because $A$ and $B$ are square, by Theorem 4.1, $A$ and $B$ each have an SVD with uniquely determined unitary matrices. Also by 4.1, their singular values are uniquely determined, but are equal in this case, by hypothesis. Using this fact, we have \[A = U_A\Sigma V_A^* ~~~~~~ and ~~~~~~ B = U_B\Sigma V_A^*.\] But this implies \[\Sigma = U_A^*AV_A = U_B^*BV_B,\] which implies \[U_A \Sigma V_A^* = A = U_AU_B^*BV_BV_A^*.\] Since the product of unitary matrices is unitary, set $Q = U_AU_B^*$. Then $Q^* = U_BU_A^*$. Thus, for $A$ and $B$ to be unitarily equivalent, we need $U_BU_A^* = V_BV_A^*$. But since $A \neq B$, and $U_A, U_B, V_A, V_B$ uniquely determined and $\Sigma$ equal for both $A$ and $B$, we have \[A = U_A \Sigma V_A^* = U_AU_B^*BV_BV_A^* = A = U_AU_B^*BU_BU_A^*,\] i.e., two different singular value decompositions for $A$. This is a contradiction. Therefore, $A$ and $B$ may not be unitarily similar.
+
+    % $(\Leftarrow)$ Consider the matrices 
+    % \[A=
+    %     \begin{bmatrix}
+    %         1 & 0\\
+    %         0 & 0\\
+    %     \end{bmatrix}
+    %     , ~~~~~
+    %     B=
+    %     \begin{bmatrix}
+    %         0 & 1\\
+    %         0 & 0\\
+    %     \end{bmatrix}
+    % \]
+    % Since 
+    % \[
+    % A^*A = 
+    % \begin{bmatrix}
+    %     1 & 0\\
+    %     0 & 0\\
+    % \end{bmatrix}    
+    % \]
+    % which has eigenvalues $\{1, 0\}$ and
+    % \[
+    % B^*B = 
+    % \begin{bmatrix}
+    %     0 & 0\\
+    %     0 & 1\\
+    % \end{bmatrix}    
+    % \]
+    % which also has eigenvalues $\{1, 0\}$ Since $A$ and $B$ share the same singular values
+    % we can show that $A$ and $B$ are not unitarily equivalent using this as a counter-example. Con
+
+\end{proof}
+
+
+
+
+\pagebreak
+\section*{Problem 4.5}
+Theorem 4.1 asserts that every $A \in \mathbb{C}^{m \times n}$ has an SVD $A = U\Sigma V^*$. Show that if $A$ is real, then it has a real SVD ($U \in \mathbb{R}^{m \times m}$, $V \in \mathbb{R}^{n \times n}$).\\
+
+\begin{proof}
+    Following the proof of Theorem 4.1, we set $\sigma_1 = \begin{Vmatrix}
+        A
+    \end{Vmatrix}_2$. Then by a compactness argument, there must be a vector $v_1 \in \mathbb{R}^n$ with $\begin{Vmatrix}
+        v_1
+    \end{Vmatrix}_2 = 1$ and $\begin{Vmatrix}
+        u_1
+    \end{Vmatrix}_2 = \sigma_1$, where $u_1 = Av_1$. Consider any extension of $v_1$ to an orthonormal basis $\{v_j\}$ for $\mathbb{R}^n$. Similarly, extend $u_1$ to a basis $\{u_j\}$ for $\mathbb{R}^m$. Then let $U_1$ and $V_1$ denote the unitary matrices with columns $u_j$ and $v_j$, respectively. Then we have 
+    \[
+    U_1^* A V_1 = S = 
+    \begin{bmatrix}
+        \sigma_1 & w^*\\
+        0 & B\\
+    \end{bmatrix}    
+    \]
+    Here $0$ is an $(m-1) \times 1$ vector, $w^*$ is an $1 \times (n-1) $ row vector, and $B$ has dimension $(m-1) \times (n-1)$. Taking the norm of $S$, we see that
+    \[
+        \begin{Vmatrix}
+            S
+        \end{Vmatrix}_2    
+        =
+        \begin{Vmatrix}
+            \begin{bmatrix}
+                \sigma_1 & w^*\\
+                0 & B\\
+            \end{bmatrix}
+            \begin{bmatrix}
+                \sigma_1\\
+                w
+            \end{bmatrix}
+        \end{Vmatrix}_2
+        \geq
+        \sigma_1^2 + w^*w
+        = 
+        (\sigma_1^2 + w^*w)^{1/2}\begin{Vmatrix}
+            \begin{bmatrix}
+                \sigma_1\\
+                w
+            \end{bmatrix}
+        \end{Vmatrix}
+    \]
+But $\begin{Vmatrix}
+    S
+\end{Vmatrix}_2 \geq (\sigma_1^2 + w^*w)^{1/2}$ implies $w = 0$ since $U_1, V_1$ unitary mean $\begin{Vmatrix}
+    S
+\end{Vmatrix}_2 = \begin{Vmatrix}
+    A
+\end{Vmatrix}_2 = \sigma_1.$\\
+
+If $n=m=1$ the proof is complete. Otherwise, the matrix $B$ describes the action of $A$ on the subspace orthogonal to $v_1$. By the induction hypothesis, $B$ has an $SVD$ $B=U_2\Sigma_2 V_2^*$. Repeating the process just shown it can be verified that
+\[
+    A = U_1 \begin{bmatrix}
+        1 & 0\\
+        0 & U_2\\
+    \end{bmatrix}
+    \begin{bmatrix}
+        \sigma_1 & 0\\
+        0 & \Sigma_2\\
+    \end{bmatrix}    
+    \begin{bmatrix}
+        1 & 0\\
+        0 & V_2
+    \end{bmatrix}^*
+    V_1^*
+\] is an SVD of $A$. This completes the proof of existence. Since we restricted ourselves to the real numbers, the resulting $SVD$ is real.
+
+\end{proof}
+\end{document}

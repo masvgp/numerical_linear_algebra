@@ -1,0 +1,172 @@
+\documentclass{article}
+%\usepackage{concmath}
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+\newcolumntype{L}{>{$}l<{$}}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ : \hmwkTitle}
+%\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#8}
+\newcommand{\hmwkDueDate}{September 19, 2022}
+\newcommand{\hmwkClass}{Numerical Linear Algebra}
+\newcommand{\hmwkClassTime}{Section 1}
+\newcommand{\hmwkClassInstructor}{Instructor: Professor Blake Barker\\}
+\newcommand{\hmwkAuthorName}{\textbf{Michael Snyder}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 10:00PM}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+\section*{Problem 8.1}
+Let $A$ be an $m \times n$ matrix. Determine the exact number of floating point operations (i.e., additions, subtractions, multiplications, and divisions) involved in computing the factorization $A = \hat{Q}\hat{R}$ by Algorithm 8.1. \\
+
+\textbf{Solution:} First we note that because we are considering the reduced QR factorization, $Q$ is $m \times n$ and $R$ is $n \times n$. With this in mind, and beginning from the inner loop, we find that 
+\subsection*{Inner Loop}
+$r_{ij}q_i$ results $m$ multiplications and $v_j - r_{ij}q_i$ results in $m$ subtractions. Thus, $v_j = v_j - r_{ij}q_i$ results in $2m$ floating point operations.\\
+
+$q_i^*v_j$ results in $m$ multiplications and $m-1$ additions. Thus, $r_{ij}=q_i^*v_j$ results in $m + m-1 = 2m - 1$ floating point operations.\\
+
+Adding these two assignments within the inner loop together, we have $4m-1$ floating point operations.\\
+
+Since these assignments happen $\text{for } i=1 \text{ to } n$ and for $j=i+1$ to $n$, we are summing up the $4m-1$ floating point operations $n$ times starting at $j=1+1=2$ to $n$ which means we have $\frac{n}{2}(n - (i + 1) + 1) = \frac{n}{2}(n - 2 + 1) = \frac{n(n-1)}{2}$ terms. Thus we have \[\sum_{i=1}^n\sum_{j=i+1}^n(4m-1) = \frac{1}{2}\cdot n(n-1) \cdot (4m-1) =  \frac{n(n-1)}{2}(4m-1)\] floating point operations.
+
+\subsection*{Outer Loop}
+The outer loop consists of $m$ divisions in $v_i/r_{ii}$ and $m$ multiplications and $m-1$ additions in $\begin{Vmatrix}
+    v_i
+\end{Vmatrix}.$
+
+Then summing those up for $i=1$ to $n$ we have $n(3m-1)$ floating point operations. \\
+
+We note here prior to summing all the floating point operations that the top loop of Algorithm 8.1 (i.e., with $v_i = a_i$) does not result in any floating point operations since it is only reassignment.\\
+
+Now, adding up the inner and outer loops, we have \[\text{inner loop } + \text{ outer loop } = \frac{n(n-1)}{2}(4m-1) + n(3m-1)\] floating point operations.
+
+
+
+\end{document}

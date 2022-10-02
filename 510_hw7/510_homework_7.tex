@@ -1,0 +1,214 @@
+\documentclass{article}
+%\usepackage{concmath}
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+\newcolumntype{L}{>{$}l<{$}}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ : \hmwkTitle}
+%\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#7}
+\newcommand{\hmwkDueDate}{September 16, 2022}
+\newcommand{\hmwkClass}{Numerical Linear Algebra}
+\newcommand{\hmwkClassTime}{Section 1}
+\newcommand{\hmwkClassInstructor}{Instructor: Professor Blake Barker\\}
+\newcommand{\hmwkAuthorName}{\textbf{Michael Snyder}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 10:00PM}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+\section*{Problem 7.3}
+Let $A$ be an $m \times m$ matrix, and let $a_j$ be its $j^{th}$ column. Give an algebraic proof of \textit{Hadmamard's inequality:} \[ \lvert \det A \rvert \leq \prod_{j=1}^m \begin{Vmatrix}
+    a_j
+\end{Vmatrix}_2. \]
+Also, give a geometric interpretation of this result, making use of the fact that the determinant equals the volume of a parallelepiped. 
+
+\begin{proof}
+    Let $A$ be an $m \times m$ matrix, and let $a_j$ be its $j^{th}$ column. We will prove Hadamard's inequality using the following facts:
+    \begin{enumerate}
+        \item $A$ has a $QR$ factorization;
+        %\item $\det QA = \det A$ for unitary matrix $Q$.
+        \item For matrices $A$ and $B$, $\det AB = \det A \det B$;
+        \item By Theorem 5.6, $\lvert \det A \rvert = \prod \sigma_j$. Moreover, by Theorem 5.3, $\begin{Vmatrix}
+            A
+        \end{Vmatrix}_2 = \sigma_1$. As a consequence of these two theorems, we have $\lvert \det Q \rvert \leq 1$;
+        \item $\det U = \prod u_{ii}$ for upper triangular $U$;
+        \item By algorithm 7.1, $r_{jj} = \begin{Vmatrix}
+            a_j
+        \end{Vmatrix}_2.$
+
+    \end{enumerate}
+
+    Using these facts, we have\\
+
+    \begin{tabular}{L L L L}
+        \lvert \det A \rvert & = & \lvert \det QR \rvert & ~~~ \text{Fact 1}\\
+        & = & \lvert \det Q \det R \rvert & ~~~ \text{Fact 2}\\
+        & \leq & \lvert \det R \rvert & ~~~ \text{Fact 3}\\
+        & = & \prod_{j=1}^n r_{jj} & ~~~ \text{Fact 4}\\
+        & = & \prod_{j=1}^n \begin{Vmatrix}
+            a_j
+        \end{Vmatrix}_2. & ~~~ \text{Fact 5}
+    \end{tabular}
+
+    % \begin{tabular}{l l l l}
+    %     $\lvert \det A \rvert$ & = & $\lvert \det QR \rvert$ & ~~~ Fact 1\\
+    %     & $=$ & $\lvert \det Q \det R \rvert$ & ~~~ Fact 2\\
+    %     & $\leq$ & $\lvert \det R \rvert$ & ~~~ Fact 3\\
+    %     & $=$ & $\prod_{j=1}^n r_{jj}$ & ~~~ Fact 4\\
+    %     & $=$ & $\prod_{j=1}^n \begin{Vmatrix}
+    %         a_j
+    %     \end{Vmatrix}_2$. & ~~~ Fact 5
+    % \end{tabular}
+\end{proof}
+
+
+\pagebreak
+\section*{Problem 7.4}
+Let $x^{(1)}, y^{(1)}, x^{(2)}, y^{(2)}$ be nonzero vectors in $\mathbb{R}^3$ with the property that $x^{(1)}$ and $y^{(1)}$ are linearly independent and so are $x^{(2)}$ and $y^{(2)}$. Consider the two planes in $\mathbb{R}^3$, \[ P^{(1)} = \langle x^{(1)}, y^{(1)} \rangle, ~~~~~ P^{(2)} = \langle x^{(2)}, y^{(2)} \rangle. \] Suppose we wish to find a nonzero vector $v \in \mathbb{R}^3$ that lies in the intersection $P =  P^{(1)} \cap P^{(2)}.$  Devise a method for solving this problem by reducing it to the computation of $QR$ factorizations of $3 \times 2$ matrices.\\
+
+\textbf{Solution:} Let $A^{(1)} = \begin{bmatrix}
+    x^{(1)} & \lvert &  y^{(1)}
+\end{bmatrix}$, be the $3 \times 2$ matrix whose columns are the vectors $x^{(1)}$ and $y^{(1)}$. Similarly, form the matrix $A^{(2)} = \begin{bmatrix}
+    x^{(2)} & \lvert &  y^{(2)}.
+\end{bmatrix}$
+Then \[ A^{(1)} = \begin{bmatrix}
+    x^{(1)} & \lvert &  y^{(1)}
+\end{bmatrix} = Q^{(1)}R^{(1)} = \begin{bmatrix}
+    q_1^{(1)} & \lvert &  q_2^{(1)} & \lvert & q_3^{(1)}
+\end{bmatrix}R^{(1)},\]
+where $Q^{(1)}R^{(1)}$ is the QR factorization of $A^{(1)}$ and hence by Algorithm 7.1, $q_1^{(1)}, q_2^{(1)}, q_3^{(1)}$ are the orthonormal columns of $Q^{(1)}$. But $range (A^{(1)})$ is spanned by the vectors $q_1^{(1)}, q_2^{(1)}$. Stated another way, $span(\{ q_1^{(1)}, q_2^{(1)} \}) = P^{(1)}$. Since $q_3^{(1)}$ is orthogonal to $q_1^{(1)}$ and  $q_2^{(1)}$, $q_3^{(1)}$ is also orthogonal to $P^{(1)}$. By similar analysis, we obtain, through QR factorization of the matrix $A^{(2)}$, the vector $q_3^{(2)}$ orthogonal to $P^{2}$.\\
+
+Now consider the matrix $A^{(3)} = \begin{bmatrix}
+    q_3^{(1)} & \lvert &  q_3^{(2)}
+\end{bmatrix}$. By the same process as above we find the QR factorization of $A^{(3)}$, which yields the matrix $Q^{(3)} =  \begin{bmatrix}
+    q_3^{(1)} & \lvert &  q_3^{(2)} & \lvert & q_3^{(3)} \end{bmatrix}.$ Again, $q_3^{(1)}$ and $q_3^{(2)}$ are orthogonal to $q_3^{(3)}$. But that puts $q_3^{(3)}$ in the intersection of the planes $P^{(1)}$ and  $P^{(2)}$. Therefore, we have found the requested vector $v = q_3^{(3)}$ through QR factorization of $3 \times 2$ matrices.
+
+
+\end{document}

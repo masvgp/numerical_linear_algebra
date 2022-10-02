@@ -1,0 +1,330 @@
+\documentclass{article}
+%\usepackage{concmath}
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathdots}
+% \usepackage{minted}
+% \setminted[python]{breaklines, framesep=2mm, fontsize=\footnotesize, numbersep=5pt}
+
+\usetikzlibrary{automata,positioning}
+
+\newcolumntype{L}{>{$}l<{$}}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ : \hmwkTitle}
+%\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Exam\ \#1}
+\newcommand{\hmwkDueDate}{October 1, 2022}
+\newcommand{\hmwkClass}{Numerical Linear Algebra}
+\newcommand{\hmwkClassTime}{Section 1}
+\newcommand{\hmwkClassInstructor}{Instructor: Professor Blake Barker\\}
+\newcommand{\hmwkAuthorName}{\textbf{Michael Snyder}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 5:00PM}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+\section*{Problem 1}
+Let $A \in \mathbb{R}^{2 \times 2}$ be a matrix that satisfies 
+\[
+\sup_{\begin{Vmatrix}x\end{Vmatrix}_2 = 1}
+\begin{Vmatrix}
+    Ax
+\end{Vmatrix}_2 = 3, 
+~~~ 
+\inf_{\begin{Vmatrix}x\end{Vmatrix}_2 = 1}
+\begin{Vmatrix}
+    Ax
+\end{Vmatrix}_2 = 2. 
+\]
+What are the singular values of $A$?\\
+
+\textbf{Solution:}
+
+
+\begin{proof}
+    By Theorem 4.1, $A$ has an SVD. Let it be represented in the standard way, $A = U \Sigma V^*$. By Theorem 3.1, for any $A \in \mathbb{C}^{m \times n}$ and unitary $Q \in \mathbb{C}^{m \times m}$,
+    $\begin{Vmatrix}
+        QA
+    \end{Vmatrix}_2 
+    = 
+    \begin{Vmatrix}
+        A
+    \end{Vmatrix}_2.$
+    Thus, 
+    $\begin{Vmatrix}
+        A
+    \end{Vmatrix}_2
+    =
+    \begin{Vmatrix}
+        U\Sigma V^*
+    \end{Vmatrix}_2
+    =
+    \begin{Vmatrix}
+        \Sigma
+    \end{Vmatrix}_2.$
+    
+    Using these relationships we find that  
+    \[  
+        \dagger ~~~
+        3 = \sup_{\begin{Vmatrix}x\end{Vmatrix}_2 = 1}
+        \begin{Vmatrix}
+            Ax
+        \end{Vmatrix}_2 = 
+        \sup_{\begin{Vmatrix}x\end{Vmatrix}_2 = 1} 
+        \begin{Vmatrix}
+            \Sigma x
+        \end{Vmatrix}_2
+        =
+        \sup_{\begin{Vmatrix}x\end{Vmatrix}_2 = 1} \sqrt{(\sigma_1 x_1)^2 + (\sigma_2 x_2)^2}.
+    \] 
+    By convention, singular values are arranged such that $\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_n$. Hence the quantity $\sqrt{(\sigma_1 x_1)^2 + (\sigma_2 x_2)^2}$ is maximized for $x = \begin{bmatrix}
+        1\\ 0
+    \end{bmatrix}$. But this means, completing the equalities in $\dagger$, we have \[\sup_{\begin{Vmatrix}x\end{Vmatrix}_2 = 1} \sqrt{(\sigma_1 x_1)^2 + (\sigma_2 x_2)^2} = \sqrt{(\sigma_1 \cdot 1)^2 + (\sigma_2 \cdot 0)^2} = \sigma_1,\] and thus, $\sigma_1 = 3$.\\
+    
+    By similar logic, we have that $\sqrt{(\sigma_1 x_1)^2 + (\sigma_2 x_2)^2}$ is minimized for $x = \begin{bmatrix}
+        0 \\ 1
+    \end{bmatrix}$,
+    and thus,
+    \[ 2 = \inf_{\begin{Vmatrix}x\end{Vmatrix}_2 = 1}
+    \begin{Vmatrix}
+        Ax
+    \end{Vmatrix}_2 = 
+    \inf_{\begin{Vmatrix}x\end{Vmatrix}_2 = 1} 
+    \begin{Vmatrix}
+        \Sigma x
+    \end{Vmatrix}_2
+    =
+    \inf_{\begin{Vmatrix}x\end{Vmatrix}_2 = 1} \sqrt{(\sigma_1 x_1)^2 + (\sigma_2 x_2)^2} = \sqrt{(\sigma_1 \cdot 0)^2 + (\sigma_2 \cdot 1)^2} = \sigma_2. \] Thus, the singular values of $A$ are $\sigma_1 = 3$ and $\sigma_2 = 2$.
+\end{proof}
+
+\pagebreak
+
+\section*{Problem 2}
+Suppose $A \in \mathbb{C}^{m \times m}$ has an SVD $A = U\Sigma V^*$. Find an eigenvalue decomposition (5.1) of the $2m \times 2m$ hermitian matrix 
+\[
+    \begin{bmatrix}
+        0 & A^*\\
+        A & 0
+    \end{bmatrix}.
+\]\\
+
+\textbf{Solution:}
+
+\begin{proof}
+    I can't seem to figure this one out... I've tried a few things. The thing that seemed the most promising was observing that if $B = \begin{bmatrix}
+        0 & A^*\\
+        A & 0
+    \end{bmatrix}$, then
+    \[
+        B^*B = BB^* = BB = \begin{bmatrix}
+            V\Sigma^2V^* & 0\\
+            0 & U\Sigma^2 U^*
+        \end{bmatrix} = \begin{bmatrix}
+            V & 0\\
+            0 & U
+        \end{bmatrix}
+        \begin{bmatrix}
+            \Sigma^2 & 0\\
+            0 & \Sigma^2
+        \end{bmatrix}
+        \begin{bmatrix}
+            V^* & 0\\
+            0 & U^*
+        \end{bmatrix}
+        =
+        Q\Sigma^2Q^*
+    \]
+
+    In a typical SVD $Q = \begin{bmatrix}
+        V & 0 \\
+        0 & U
+    \end{bmatrix} = U_B$ would form the right singular vectors and $V_B = Q^*$ the left singular vectors. However, I cannot verify this, unless it is the case that $V=U$ in the SVD of $A$. If $V=U$, then 
+    \[
+        B = U_B \Sigma V_B^* = Q \Sigma Q^*
+    \]
+    is an SVD of $B$. This would also be an eigenvalue decomposition of $B$.
+    
+\end{proof}
+
+\pagebreak
+
+\section*{Problem 3}
+We have studied the $QR$ and $SVD$ decompositions. This problem develops a variant of the $QR$ decomposition, the $QL$ decomposition. An $m \times m$ matrix of the form
+\[
+    K_m = 
+    \begin{bmatrix}
+        & & & & 1\\
+        & & & 1 & \\
+        & & \iddots & & \\
+        & 1 & & & \\
+        1 & & & &
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        k_{ij}
+    \end{bmatrix},    
+\]
+where $k_{i, m-i+1} = 1$, $1 \leq i \leq m$, and all other entries are zero is termed a \textit{reversal matrix} and sometimes the \textit{reverse identity matrix}. 
+
+\begin{description}
+    \item[(a)] Show that $K_m^2 = I$ (a very handy feature).\\
+    
+    \begin{proof}
+        To avoid confusion in notation, for Part (a) we assume $K$ is $m \times m$ and refer to the matrix $K_m$ as $K$. Singular subscripts on $K$ will refer to a columns of $K$, e.g., $K_j$ is the $j^{th}$ column of $K$. Double subscripts on $K$ will refer to entries in $K$, i.e., $K_{ij}$ is the $ij$-entry of $K$. With that out of the way, let $B = K^2$. Then by (1.6) from the text we have that the $j^{th}$ column of $B$ is \[\star ~~~ b_j = \sum_{k=1}^m K_{kj}K_k, \] that is, $b_j$ is a linear combination of the columns of $K$ whose coefficients are the $j^{th}$ columns of $K$. But $K_{kj} = 0$ unless $k=m-j+1$, in which case it equals 1. Thus,  the formula $\star$ selects the $(m-j+1)^{st}$ column of $K_m$ for $b_j$. This selection effectively flips $K_m$ across it's `y-axis.' That is, $b_1 = K_{m -1 + 1} = K_m, b_2 = K_{m-2 + 1} = K_{m-2}, b_3 = K_{m- 3 + 1} = K_{m-2}, \dots , b_m = K_{m - m + 1} = K_1$. The result is that \[K_m^2 = I.\]
+    \end{proof}
+    
+    \item[(b)] If $A$ is $m\times n$ matrix, $m \geq n$, what is the action of $K_m A$? What about $AK_n$?\\
+    
+    \textbf{Solution:} $K_m A$ reflects $A$ across it's `$x$-axis.' This can be seen by considering the formula $\star$. The $j^{th}$ column of $K_mA$ is given by $\sum_{k=1}^m a_{kj}K_j$, where again, $K_j$ refers to the $j^{th}$ column of $K_m$. Since the $K_j$ column only has a one in it's $(m - j + 1)^{st}$ entry for $j = 1, \dots, m$, this selects $a_{(m-k+1)j}$, that is, $b_j = a_{(m-k + 1)j}$ for $k=1, \dots m$. As already stated, this is a reflection across $A$'s `'$x$-axis.' 
+
+    \item[(c)] If $R$ is an upper triangular $n \times n$ matrix, what is the form of the product $K_nRK_n$?\\
+    
+    \textbf{Solution:} As shown in Part (a), right multiplication by $K_n$ results in a reflection of $K_nR$ across it's `$y$-axis.' Thus, in $K_nRK_n$, we have a reflection first across $R$'s $x$-axis, then that result is refelcted across it's $y$-axis.
+
+    \item[(d)] Let $AK_n = \hat{Q}\hat{R}$ be the reduced $QR$ decomposition of $AK_n$, $m \geq n$. Show that $A = (\hat{Q}K_n)(K_n\hat{R}K_n)$, and from that deduce the decomposition \[A = QL,\] where $Q$ is an $m \times n$ matrix with orthogonal columns, and $L$ is an $n \times n$ lower triangular matrix. This is a reduced $QL$ decomposition.
+    
+    \textbf{Solution:}
+    \begin{proof}
+    We are given $AK_n = \hat{Q}\hat{R}$. By Part (a), $K_n^2 = I$. Moreover, since $K_n^* = K_n$, $K_n$ is unitary. Using these facts, we have
+    \begin{align*}
+        AK_n &= \hat{Q}\hat{R}\\
+        AK_n^2 &= \hat{Q}I\hat{R}K_n\\
+        A &= \hat{Q}K_nK_n\hat{R}K_n\\
+        A &= (\hat{Q}K_n)(K_n\hat{R}K_n)\\
+    \end{align*}
+        By Part (c), $K_n\hat{R}K_n = L$ and by Part (a), $\hat{Q}K_n = Q$. Therefore,
+        \[ A = (\hat{Q}K_n)(K_n\hat{R}K_n) = QL. \]
+    \end{proof}
+
+\end{description}
+
+\pagebreak
+
+\section*{Problem 4}
+See attached code.
+
+
+\end{document}

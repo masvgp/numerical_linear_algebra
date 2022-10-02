@@ -1,0 +1,172 @@
+\documentclass{article}
+%\usepackage{concmath}
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ : \hmwkTitle}
+%\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#6}
+\newcommand{\hmwkDueDate}{September 14, 2022}
+\newcommand{\hmwkClass}{Numerical Linear Algebra}
+\newcommand{\hmwkClassTime}{Section 1}
+\newcommand{\hmwkClassInstructor}{Instructor: Professor Blake Barker\\}
+\newcommand{\hmwkAuthorName}{\textbf{Michael Snyder}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 10:00PM}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+\section*{Problem 6.1}
+If $P$ is an orthogonal projector, then $I - 2P$ is unitary. Prove this algebraically, and give a geometric interpretation.
+
+\begin{proof}
+    Suppose $P$ is an orthogonal projector. A matrix $Q$ is unitary if $Q = Q^{-1}$, or $Q^*Q = QQ^* = I$. Using this relationship, we find
+    \begin{align}
+        (I - 2P)^*(I - 2P) &= I^*I - 2I^*P - 2P^*I + 2P^*(2P)\\
+        &= I - 4P + 4P\\
+        &= I.
+    \end{align}
+    This verifies that $I - 2P$ is unitary. 
+\end{proof}
+
+\textbf{Geometric Interpretation}
+Suppose $P \in C^{m \times m}$ is a projector. Then $P$ partitions $C^{m \times m}$ into subspaces $\text{range}(P) = \text{null}(I-P)$ and $\text{null}(P) = \text{range}(I-P)$. Thus we consider vectors in these complementary spaces. Let the vector $v \in \text{range}(P)$. Then \[(I - 2P)v = [(I-P) - P]v = (I-P)v - Pv = -v.\] That is, $I-2P$ reflects vectors in $\text{range}(P)$. If we instead consider $w \in \text{null}(P) = \text{range}(I - P)$, then we have \[(I - 2P)w = [(I-P) - P]w = (I-P)w - Pw = w. \] Thus, $I - 2P$ is the identity for vectors in $\text{range}(I - P)$.
+
+
+\pagebreak
+\section*{Problem 6.3}
+Given $A \in \mathbb{C}^{m \times n}$ with $m \geq n$, show that $A^*A$ is nonsingular if and only if $A$ has full rank.\\
+
+\begin{proof}
+    $(\Rightarrow)$ Suppose first that $A \in \mathbb{C}^{m \times n}$ such that $A^*A$ is nonsingular. This means that $A^*Ax = 0$ if and only if $x = 0$. That is, $\text{null}(A^*A) = \{0\}$. Suppose to the contrary that $A$ is not full rank. Then there exists $x \neq 0$ such that $y = Ax = 0$. But this means \[(A^*A)x = A^*(Ax) = A^*y = 0. \] Since $x \neq 0$, this contradicts the fact that $A^*A$ is nonsingular. Therefore, $x$ must equal zero and $A$ must have full rank.\\
+
+    $(\Leftarrow)$ Now suppose that $A \in \mathbb{C}^{m \times n}$ has full rank. Then by Theorem 1.3, $0$ is not a singular value of $A$. By Theorem 5.3 this also means that $\lambda = 0$ is not an eigenvalue of $A^*A = V\Sigma^2V^*$. Therefore, again by Theorem 1.3, $A^*A$ is nonsingular.  
+
+\end{proof}
+
+
+\end{document}

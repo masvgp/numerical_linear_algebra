@@ -1,0 +1,760 @@
+\documentclass{article}
+%\usepackage{concmath}
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ : \hmwkTitle}
+%\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Homework\ \#3}
+\newcommand{\hmwkDueDate}{September 7, 2022}
+\newcommand{\hmwkClass}{Numerical Linear Algebra}
+\newcommand{\hmwkClassTime}{Section 1}
+\newcommand{\hmwkClassInstructor}{Instructor: Professor Blake Barker\\}
+\newcommand{\hmwkAuthorName}{\textbf{Michael Snyder}}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 10:00PM}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}
+    \vspace{3in}
+}
+
+\author{\hmwkAuthorName}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+\section*{Problem 3.3}
+Vector and matrix $p$-norms are related by various inequalities, often involving dimensions $m$ or $n$. For each of the following, verify the inequality and give an example of a nonzero vector or matrix (for general $m, n$) for which equality is achieved. In this problem $x$ is an $m$-vector and $A$ is an $m\times n$ matrix.
+
+\textbf{(a)}
+$\begin{Vmatrix}
+        x
+    \end{Vmatrix}_\infty  \leq \begin{Vmatrix}
+        x
+    \end{Vmatrix}_2$
+    \begin{proof}
+        \begin{align}
+            \begin{Vmatrix} x \end{Vmatrix}_\infty &= \max_{1 \leq i \leq m} \lvert x_i \rvert\\
+            &= \max_{1 \leq i \leq m} \left( \lvert x_i \rvert^2 \right)^{1/2}\\
+            &\leq \left( \sum_{i = 1}^m \lvert x_i \rvert^2 \right)^{1/2}\\
+            &= \begin{Vmatrix}
+                x
+            \end{Vmatrix}_2
+        \end{align}
+        Note that from (2) to (3) we use the fact that adding all elements smaller than the $\max$ $x_i$ to $x_i$ is larger, hence the inequality.
+    \end{proof}
+    
+    As an example where the equality holds, consider $e_1$. In this case, \[ \begin{Vmatrix} e_1 \end{Vmatrix}_\infty = 1 = \begin{Vmatrix} e_1 \end{Vmatrix}_2 \].
+
+    \textbf{(b)} $\begin{Vmatrix}
+        x
+    \end{Vmatrix}_2 \leq \sqrt{m}\begin{Vmatrix}
+        x
+    \end{Vmatrix}_2$
+    \begin{proof}
+        \begin{align}
+            \begin{Vmatrix}
+                x
+            \end{Vmatrix}_2
+            &= \left( \sum_{i = 1}^m \lvert x_i \rvert^2 \right)^{1/2}\\
+            &\leq \left( m \cdot \max_{1 \leq i \leq m} \lvert x_i \rvert^2  \right)^{1/2}\\
+            &= \sqrt{m}\max_{1 \leq i \leq m} \lvert x_i \rvert\\
+            &= \sqrt{m}\begin{Vmatrix}
+                x
+            \end{Vmatrix}_\infty
+        \end{align}
+        Note: The expression in (6) takes $m$ of the $\max$ $x_i$, hence is larger than the sum of the $x_i$.
+    \end{proof}
+
+    As an example, consider the vector containing all $1$s. In this case, \[ \begin{Vmatrix}
+        x
+    \end{Vmatrix}_2 = \sqrt{m} = \sqrt{m} \cdot 1 = \sqrt{m}\begin{Vmatrix}
+        x
+    \end{Vmatrix}_\infty.\]
+
+\textbf{(c)} 
+$
+\begin{Vmatrix}
+    A
+\end{Vmatrix}_\infty 
+\leq 
+\sqrt{n} 
+\begin{Vmatrix}
+    A
+\end{Vmatrix}_2
+$
+
+\begin{proof}
+    We will use $(3.6)$ from page 19 of the text to prove the claim; the definition for induced matrix norms, given here.
+    \[ 
+    \begin{Vmatrix}
+        A
+    \end{Vmatrix}_{(m, n)}
+    =
+    \sup_{x \neq 0}
+    \frac{
+    \begin{Vmatrix}
+        Ax
+    \end{Vmatrix}_{(m)}   
+    }{
+    \begin{Vmatrix}
+        x
+    \end{Vmatrix}_{(n)} 
+    } 
+    \]
+    
+    By Part (a) 
+    \[
+    \begin{Vmatrix}
+        Ax
+    \end{Vmatrix}_{\infty}
+    \leq
+    \begin{Vmatrix}
+        Ax
+    \end{Vmatrix}_{2}.
+    \]
+    By Part (b),
+
+    \[
+    \begin{Vmatrix}
+        x
+    \end{Vmatrix}_{2}
+    \leq
+    \sqrt{n}
+    \begin{Vmatrix}
+        x
+    \end{Vmatrix}_{\infty}. 
+    \]
+    This implies 
+    \[
+    \frac{
+        1
+    }{
+        \begin{Vmatrix}
+            x
+        \end{Vmatrix}_{\infty}
+    } 
+    \leq 
+    \frac{
+        \sqrt{n}
+    }{
+        \begin{Vmatrix}
+            x
+        \end{Vmatrix}_{2}
+    }.
+    \]
+    Putting the above relationships together, we have 
+    
+    \[
+        \begin{Vmatrix}
+            A
+        \end{Vmatrix}_{\infty}
+        =
+        \sup_{x \neq 0}
+        \frac{
+            \begin{Vmatrix}
+                Ax
+            \end{Vmatrix}_{\infty}
+        }{
+            \begin{Vmatrix}
+                x
+            \end{Vmatrix}_{\infty}
+        } 
+        \leq 
+        \sup_{x \neq 0}
+        \frac{
+            \sqrt{n}
+            \begin{Vmatrix}
+                Ax
+            \end{Vmatrix}_{2}
+        }{
+            \begin{Vmatrix}
+                x
+            \end{Vmatrix}_{2}
+        } 
+        =
+        \sqrt{n}
+        \begin{Vmatrix}
+            A
+        \end{Vmatrix}_{2}
+    \]
+        Therefore, $
+        \begin{Vmatrix}
+            A
+        \end{Vmatrix}_{\infty} \leq \sqrt{n}
+        \begin{Vmatrix}
+            A
+        \end{Vmatrix}_{2}$
+
+\end{proof}
+
+As an example, Consider 
+$A = 
+\begin{bmatrix}
+    1/\sqrt{2} & 1/\sqrt{2}\\
+    0 & 0\\
+\end{bmatrix} $
+ and
+ $x = \begin{bmatrix}
+    1/\sqrt{2}\\
+    1/\sqrt{2}\\
+ \end{bmatrix}$. Computing the $\infty$-norm for $Ax$ and $x$ yields:
+ \[ 
+    \begin{Vmatrix}
+        x
+    \end{Vmatrix}_\infty
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1/\sqrt{2}\\
+            1/\sqrt{2}\\
+        \end{bmatrix}
+    \end{Vmatrix}_\infty
+    = \max \{1/\sqrt{2}, 1/\sqrt{2}\}
+    = 1/\sqrt{2},
+ \]
+ and
+ \[
+    \begin{Vmatrix}
+        Ax
+    \end{Vmatrix}_\infty
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1/\sqrt{2} & 1/\sqrt{2}\\
+            0 & 0\\
+        \end{bmatrix}
+        \begin{bmatrix}
+            1/\sqrt{2}\\
+            1/\sqrt{2}\\
+        \end{bmatrix}
+    \end{Vmatrix}_\infty
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1\\
+            0\\
+        \end{bmatrix}
+    \end{Vmatrix}_\infty
+    =
+    1
+ \]
+ Thus, 
+ \[
+    \begin{Vmatrix}
+        A
+    \end{Vmatrix}_\infty
+    =
+    \frac{
+            \begin{Vmatrix}
+                Ax
+            \end{Vmatrix}_{\infty}
+        }{
+            \begin{Vmatrix}
+                x
+            \end{Vmatrix}_{\infty}
+        } 
+    =
+    \frac{1}{1/\sqrt{2}} = \sqrt{2}.
+\]
+Computing the $2$-norm for $Ax$ and $x$ yields:
+ \[ 
+    \begin{Vmatrix}
+        x
+    \end{Vmatrix}_2
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1/\sqrt{2}\\
+            1/\sqrt{2}\\
+        \end{bmatrix}
+    \end{Vmatrix}_2
+    = \sqrt{\left(1/\sqrt{2}\right)^2 + \left(1/\sqrt{2}\right)^2}
+    = 1,
+ \]
+ and
+ \[
+    \begin{Vmatrix}
+        Ax
+    \end{Vmatrix}_2
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1/\sqrt{2} & 1/\sqrt{2}\\
+            0 & 0\\
+        \end{bmatrix}
+        \begin{bmatrix}
+            1/\sqrt{2}\\
+            1/\sqrt{2}\\
+        \end{bmatrix}
+    \end{Vmatrix}_2
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1\\
+            0\\
+        \end{bmatrix}
+    \end{Vmatrix}_2
+    =
+    1
+ \]
+ Thus, 
+ \[ \sqrt{2}
+    \begin{Vmatrix}
+        A
+    \end{Vmatrix}_2
+    =
+    \sqrt{2}
+    \frac{
+            \begin{Vmatrix}
+                Ax
+            \end{Vmatrix}_{2}
+        }{
+            \begin{Vmatrix}
+                x
+            \end{Vmatrix}_{2}
+        } 
+    =
+    \sqrt{2}\cdot \frac{1}{1} = \sqrt{2}.
+\]
+Putting the computations together, we have 
+\[
+    \begin{Vmatrix}
+        A
+    \end{Vmatrix}_\infty
+    =
+    \sqrt{2}
+    =
+    \sqrt{2}
+    \begin{Vmatrix}
+        A
+    \end{Vmatrix}_2
+\]
+
+
+\textbf{(d)}         
+$\begin{Vmatrix}
+    A
+\end{Vmatrix}_{2} \leq \sqrt{m}
+\begin{Vmatrix}
+    A
+\end{Vmatrix}_{\infty}$
+\begin{proof}
+    Again, (3.6) is used to prove the assertion.
+    By Part (b),
+    \[
+        \begin{Vmatrix}
+            Ax
+        \end{Vmatrix}_{2}
+        \leq
+        \sqrt{m}
+        \begin{Vmatrix}
+            Ax
+        \end{Vmatrix}_{\infty}. 
+        \]
+        Then by Part (a)
+        \[
+    \frac{
+        1
+    }{
+        \begin{Vmatrix}
+            x
+        \end{Vmatrix}_{2}
+    } 
+    \leq 
+    \frac{
+        1
+    }{
+        \begin{Vmatrix}
+            x
+        \end{Vmatrix}_{\infty}
+    }.
+    \]
+    Putting it all together yields,
+    \[
+        \begin{Vmatrix}
+            A
+        \end{Vmatrix}_{2}
+        =
+        \sup_{x \neq 0}
+        \frac{
+            \begin{Vmatrix}
+                Ax
+            \end{Vmatrix}_{2}
+        }{
+            \begin{Vmatrix}
+                x
+            \end{Vmatrix}_{2}
+        } 
+        \leq 
+        \sup_{x \neq 0}
+        \frac{
+            \sqrt{m}
+            \begin{Vmatrix}
+                Ax
+            \end{Vmatrix}_{\infty}
+        }{
+            \begin{Vmatrix}
+                x
+            \end{Vmatrix}_{\infty}
+        } 
+        =
+        \sqrt{m}
+        \begin{Vmatrix}
+            A
+        \end{Vmatrix}_{\infty}.
+    \]
+        Therefore,   \[
+            \begin{Vmatrix}
+                A
+            \end{Vmatrix}_{2}
+            \leq
+            \sqrt{m}
+            \begin{Vmatrix}
+                A
+            \end{Vmatrix}_{\infty}. 
+            \]
+\end{proof}
+
+
+
+As an example, Consider 
+$A = 
+\begin{bmatrix}
+    1 & 0\\
+    1 & 0\\
+\end{bmatrix} $
+ and
+ $x = \begin{bmatrix}
+    1\\
+    0\\
+ \end{bmatrix}$. Computing the $\infty$-norm for $Ax$ and $x$ yields:
+ \[ 
+    \begin{Vmatrix}
+        x
+    \end{Vmatrix}_\infty
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1\\
+            0\\
+        \end{bmatrix}
+    \end{Vmatrix}_\infty
+    = \max \{1, 0\}
+    = 1,
+ \]
+ and
+ \[
+    \begin{Vmatrix}
+        Ax
+    \end{Vmatrix}_\infty
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1 & 0\\
+            1 & 0\\
+        \end{bmatrix}
+        \begin{bmatrix}
+            1\\
+            0\\
+        \end{bmatrix}
+    \end{Vmatrix}_\infty
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1\\
+            1\\
+        \end{bmatrix}
+    \end{Vmatrix}_\infty
+    =
+    1
+ \]
+ Thus, 
+ \[\sqrt{2}
+    \begin{Vmatrix}
+        A
+    \end{Vmatrix}_\infty
+    =
+    \sqrt{2}
+    \frac{
+            \begin{Vmatrix}
+                Ax
+            \end{Vmatrix}_{\infty}
+        }{
+            \begin{Vmatrix}
+                x
+            \end{Vmatrix}_{\infty}
+        } 
+    =
+    \sqrt{2}\cdot
+    \frac{1}{1} = \sqrt{2}.
+\]
+Computing the $2$-norm for $Ax$ and $x$ yields:
+ \[ 
+    \begin{Vmatrix}
+        x
+    \end{Vmatrix}_2
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1\\
+            0\\
+        \end{bmatrix}
+    \end{Vmatrix}_2
+    = \sqrt{\left(1\right)^2 + \left(0\right)^2}
+    = 1,
+ \]
+ and
+ \[
+    \begin{Vmatrix}
+        Ax
+    \end{Vmatrix}_2
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1 & 0\\
+            1 & 0\\
+        \end{bmatrix}
+        \begin{bmatrix}
+            1\\
+            0\\
+        \end{bmatrix}
+    \end{Vmatrix}_2
+    =
+    \begin{Vmatrix}
+        \begin{bmatrix}
+            1\\
+            1\\
+        \end{bmatrix}
+    \end{Vmatrix}_2
+    = \sqrt{1^2 + 1^2}
+    = \sqrt{2}
+ \]
+ Thus, 
+ \[ 
+    \begin{Vmatrix}
+        A
+    \end{Vmatrix}_2
+    =
+    \frac{
+            \begin{Vmatrix}
+                Ax
+            \end{Vmatrix}_{2}
+        }{
+            \begin{Vmatrix}
+                x
+            \end{Vmatrix}_{2}
+        } 
+    =
+    \frac{\sqrt{2}}{1} = \sqrt{2}.
+\]
+Putting the computations together, we have 
+\[
+    \begin{Vmatrix}
+        A
+    \end{Vmatrix}_2
+    =
+    \sqrt{2}
+    =
+    \sqrt{2}
+    \begin{Vmatrix}
+        A
+    \end{Vmatrix}_\infty
+\]
+
+
+
+
+
+
+\pagebreak
+\section*{Problem 3.4}
+Let $A$ be an $m \times n$ matrix and let $b$ be a submatrix of $A$, that is, a $\mu \times \nu$ matrix ($\mu \leq m, \nu \leq n$) obtained by selecting certain rows and columns of $A$. \\
+
+\textbf{(a)} Explain how $B$ can be obtained by multiplying $A$ by certain row and column ``deletion matrices'' as in step 7 of Exercise 1.1. \\
+
+\textbf{Solution:} The $\mu \times \nu$ matrix $B$ can be obtained from the $m \times n$ matrix $A$ by left multiplication by a $\mu \times m$ matrix $L$ and a $n \times \nu$ matrix $R$. To remove row $i$ from $A$, column $i$ of $L$ should have only zeros. Every column of $L$ must contain exactly one 1. To remove column $j$ from $A$, row $j$ of $R$ should have all zeros. Every row of $R$ must contain exactly one 1.\\
+
+\textbf{(b)} Using this product, show that
+$
+\begin{Vmatrix}
+    B
+\end{Vmatrix}_p
+\leq 
+\begin{Vmatrix}
+    A
+\end{Vmatrix}_p
+$
+for any $p$ with $1 \leq p \leq \infty$.
+\begin{proof}
+    Since $L$ and $R$ have columns and rows containing at most a single 1, the $p$-norms for $L$ and $R$ are at most 1, that is
+    \[
+        \begin{Vmatrix}
+            L
+        \end{Vmatrix}_p
+        \leq 1
+        ,
+        ~~~~
+        \begin{Vmatrix}
+            R
+        \end{Vmatrix}_p
+        \leq 1
+    \]
+    Then using (3.14) from page 22 of the text, we have 
+    \[
+        \begin{Vmatrix}
+            B
+        \end{Vmatrix}_p
+        = 
+        \begin{Vmatrix}
+            LAR
+        \end{Vmatrix}_p
+        \leq
+        \begin{Vmatrix}
+            L
+        \end{Vmatrix}_p
+        \begin{Vmatrix}
+            A
+        \end{Vmatrix}_p
+        \begin{Vmatrix}
+            R
+        \end{Vmatrix}_p
+        \leq
+        1 \cdot
+        \begin{Vmatrix}
+            A
+        \end{Vmatrix}_p
+        \cdot 1
+        =
+        \begin{Vmatrix}
+            A
+        \end{Vmatrix}_p.
+    \]
+    Therefore, $
+    \begin{Vmatrix}
+        B
+    \end{Vmatrix}_p
+    \leq 
+    \begin{Vmatrix}
+        A
+    \end{Vmatrix}_p
+    $
+\end{proof}
+\end{document}
